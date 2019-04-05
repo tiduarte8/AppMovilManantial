@@ -1,5 +1,5 @@
-#Imagen de Muestra
+##Imagen de Muestra
 ![Screenshot](assets/capturaproducto.PNG)
-#Autores
+##Autores
 -Tito Duarte
 -Carlos Jose Rocha
