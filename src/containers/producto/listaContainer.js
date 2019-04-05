@@ -2,97 +2,79 @@ import React, {Component} from 'react';
 
 import Lista from  './../../components/productos';
 
-import {AsyncStorage,Alert} from 'react-native';
-
-import Crear from './../../components/agregarProComponent';
+import firebase from 'react-native-firebase';
 
 
 
 class ListaContainer extends Component {
 
     constructor(props) {
-        super(props);
-        this.state={
-            agenda:[],
-           
-        }
-    }
+        super(props)
 
-    agregarDatos=async(producto)=>{
-        try{
-
-            const productoEnString=JSON.stringify({
-                datosDeLaLista:producto,
-            });
-
-            const resultadoObtenerDatos = this.obtenerDatos();
-            if(resultadoObtenerDatos === null)
-            {
-               
-                await AsyncStorage.setItem('PRODUCTO',productoEnString);
-            }
-
-            else{
-               
-                await AsyncStorage.mergeItem('PRODUCTO',productoEnString);
-            }
-           
-             
-        }
-
-        catch(error){
-
-        }
-    }
-
-    obtenerDatos = async () => {
-    
-        try{
-            const producto = await AsyncStorage.getItem('PRODUCTO')
-            if(Lista=== null){
-              Alert.alert('mensaje','No hay datos');
-              return  null;
-                
-            }
-            else{
-               
-                const arregloProducto= JSON.parse(producto);
-                return arregloProducto.datosDeLaLista;
-            }
-        }
-        catch(error){
-
-        }
-
-    }
-
-    eventoPantallaAgregar=()=>{
-        this.props.navigation.navigate('crear')
-    };
-    
-
-
-    render(){
-        const {producto}= this.state;
-        console.log('datos',producto);
-
-      return(
-        <Lista
-           eventoPantallaAgregar={this.eventoPantallaAgregar}
-            datosDeLaLista={producto}
-        />
-        );
+        this.state = {
+            datos: [],
+        };
         
     }
 
-    async componentDidMount(){
-     const datos = await this.obtenerDatos();
-     if(datos !== null)
-     {
-         this.setState({producto:datos,
-        });
-     }
+    miEventoPressPantallaCrear = () => {
+        this.props.navigation.navigate('crear');
+    }
 
+    miEventoPressPantallaEditar = (productos) => {
+
+        this.props.navigation.navigate('editar', {
+            photoParaActualizar: productos,
+        });
+    }
+
+    render() {
+        const { datos } = this.state
+        return (
+            <Lista
+                datos={datos}
+                miEventoPressPantallaCrear={ this.miEventoPressPantallaCrear }
+                miEventoPressPantallaEditar={ this.miEventoPressPantallaEditar }
+            />
+        )
+    }
+
+    componentDidMount() {
+        const db = firebase.firestore();
+        db.collection('productos').onSnapshot((instantanea) => {
+            const { datos } = this.state;
+            instantanea.docChanges.forEach((cambio) => {
+                const indice = datos.findIndex(item => item.key === cambio.doc.id);
+                switch (cambio.type) {
+                    case 'added': {
+                        datos.push({
+                            key: cambio.doc.id,
+                            nombre: cambio.doc.data().nombre,
+                            precio: cambio.doc.data().precio,
+                            imagen: cambio.doc.data().imagen,
+                        });
+                        break;
+                    }
+                    case 'modified': {
+                        if(indice !== -1) {
+                            datos[indice].nombre = cambio.doc.data().nombre;
+                            datos[indice].precio = cambio.doc.data().precio;
+                            datos[indice].imagen = cambio.doc.data().imagen;
+                        }
+                        break;
+                    }
+                    case 'removed': {
+                        if(indice !== -1 ) {
+                            datos.splice(indice, 1);
+                        }
+                        break;
+                    }
+                }
+            });
+            this.setState({
+                datos: datos,
+            });
+        });
     }
 
 }

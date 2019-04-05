@@ -1,6 +1,7 @@
 import {createStackNavigator,createAppContainer} from 'react-navigation';
 import Lista from './../containers/producto/listaContainer';
-import Crear from './agregarProComponent';
+import Crear from './../containers/producto/crearContainer';
+import Editar from './../containers/producto/editar-container';
 
 
 const menuStack = createStackNavigator({
@@ -16,6 +17,10 @@ const menuStack = createStackNavigator({
         navigationOptions: {
             headerTitle: 'Agregar Producto',
           },
+    },
+
+    editar: {
+        screen: Editar,
     },
 },
 {

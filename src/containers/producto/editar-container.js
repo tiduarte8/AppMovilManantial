@@ -1,77 +1,83 @@
 import React, { Component } from 'react';
-import Crear from './../../components/agregarProComponent';
+import Editar from './../../components/editar';
 import firebase from 'react-native-firebase'
 
-class CrearContainer extends Component {
+class EditarContainer extends Component {
 
     constructor(props) {
         super(props);
+
+        const  photoParaActualizar = props.navigation.getParam('photoParaActualizar',{});
+
+        console.log('photoParaActualizar',  photoParaActualizar);
+
         this.state = {
             //estado de nuestros datos
-            nombre: '',
-            precio:'',
-            imagen: '',
-           
+            key:  photoParaActualizar.key,
+            nombre: photoParaActualizar.nombre,
+            precio: photoParaActualizar.precio,
+            imagen: photoParaActualizar.imagen,
 
             //estado de nuestra interfaz
-            estadoEnGuardado: 'comienzo',
+            estadoEnEditado: 'comienzo',
         };
     }
 
     miEventoCambiarNombre = (nombre) => {
         this.setState({
             nombre: nombre,
-            estadoEnGuardado: 'comienzo',
+            estadoEnEditado: 'comienzo',
         });
     }
 
     miEventoCambiarPrecio = (precio) => {
         this.setState({
             precio: precio,
-            estadoEnGuardado: 'comienzo',
+            estadoEnEditado: 'comienzo',
         });
     }
-
 
     miEventoCambiarImagen = (imagen) => {
         this.setState({
             imagen: imagen,
-            estadoEnGuardado: 'comienzo',
+            estadoEnEditado: 'comienzo',
         })
     }
 
-    miEventoPressGuardar = () => {
+    miEventoPressEditar = () => {
 
         this.setState({
-            estadoEnGuardado: 'cargando',
+            estadoEnEditado: 'cargando',
         })
 
         const db = firebase.firestore();
 
         const {
+            key: photoId,
             nombre,
             precio,
-            imagen
+            imagen,
         } = this.state;
 
         db
         .collection('productos')
-        .add({
+        .doc(photoId)
+        .update({
             nombre: nombre,
-            precio: precio,
-            imagen:imagen,
+            precio:precio,
+            imagen: imagen,
         })
         .then(() => {
             this.setState({
                 nombre: '',
                 precio:'',
                 imagen: '',
-                estadoEnGuardado: 'guardado',
+                estadoEnEditado: 'guardado',
             })
         })
         .catch((error) => {
             this.setState({
-                estadoEnGuardado: 'error',
+                estadoEnEditado: 'error',
             })
         })
     }
@@ -82,19 +88,21 @@ class CrearContainer extends Component {
             nombre,
             precio,
             imagen,
-            estadoEnGuardado,
+            estadoEnEditado,
         } = this.state
 
+        console.log('nombre', nombre)
+
         return(
-            <Crear
+            <Editar
                 nombre={nombre}
                 miEventoCambiarNombre={this.miEventoCambiarNombre}
                 precio={precio}
                 miEventoCambiarPrecio={this.miEventoCambiarPrecio}
                 imagen={imagen}
                 miEventoCambiarImagen={this.miEventoCambiarImagen}
-                miEventoPressGuardar={this.miEventoPressGuardar}
-                estadoEnGuardado={estadoEnGuardado}
+                miEventoPressEditar={this.miEventoPressEditar}
+                estadoEnEditado={estadoEnEditado}
             />
         )
 
@@ -102,4 +110,4 @@ class CrearContainer extends Component {
 
 }
 
-export default CrearContainer;
+export default EditarContainer;

@@ -8,15 +8,14 @@ import {Console,TextInput,Text,View,Button,Dimensions,TouchableOpacity,Alert,Ima
 const agregarProComponent = (props)=>{
 
   const{
-     codigodebarra,
-     eventoCodigodeBarra,
-
-     nombre,
-     eventoNombre,
-
-     precio,
-     eventoPrecio,
-     eventoCrear
+    nombre,
+    miEventoCambiarNombre,
+    precio,
+    miEventoCambiarPrecio,
+    imagen,
+    miEventoCambiarImagen,
+    miEventoPressGuardar,
+    estadoEnGuardado,
   }= props;
 
   return(
@@ -28,40 +27,38 @@ const agregarProComponent = (props)=>{
                     >
 
         </Image>
-        <TextInput 
-            onChangeText={eventoCodigodeBarra}
-            value={codigodebarra}
-            keyboardType='numeric'
-            style={styles.textinput}
-            placeholder= "Código de Barra">
+        <Text style={styles.textoestilo}>Nombre</Text>
+        <TextInput style={styles.textinput} 
+           value={nombre}
+           onChangeText={miEventoCambiarNombre}
+           editable={ estadoEnGuardado === 'cargando' ? false : true }
+           >
         
         </TextInput>
-        <TextInput 
-            onChangeText={eventoNombre}
-            value={nombre}
-            style={styles.textinput}
-            placeholder= "Nombre Presentación">
+        <Text style={styles.textoestilo}>Precio</Text>
+        <TextInput style={styles.textinput}
+            value={precio}
+           onChangeText={miEventoCambiarPrecio}
+           editable={ estadoEnGuardado === 'cargando' ? false : true }>
         
         </TextInput>
         
+          <Text style={styles.textoestilo}>Imagen</Text>
+          <TextInput style={styles.textinput} 
 
-          <TextInput 
-
-           onChangeText={eventoPrecio}
-           value={precio}
-           style={styles.textinput}  
-            keyboardType="numeric"
-            placeholder= "Precio C$">
+           value={imagen}
+           onChangeText={miEventoCambiarImagen}
+           editable={ estadoEnGuardado === 'cargando' ? false : true }>
 
           </TextInput>
          
-<TouchableOpacity style = {styles.touchboton}
-onPress={eventoCrear}
->
-
-    <Text style={styles.textboton} >Guardar</Text>
-    
-</TouchableOpacity>
+          <View style={styles.touchboton}>
+                <Button
+                    title={'Guardar'}
+                    onPress={miEventoPressGuardar}
+                    disabled={ estadoEnGuardado === 'cargando' ? true : false }
+                />
+            </View>
 
 </View>
 
@@ -84,7 +81,7 @@ const styles=StyleSheet.create({
 
     touchboton:{ height: 40, marginTop: 10,
       backgroundColor:'navy',
-      width:150,borderWidth:2, 
+      width:85,borderWidth:2, 
       borderRadius:4, 
       flexDirection:'row'},
 
@@ -99,6 +96,7 @@ const styles=StyleSheet.create({
         fontSize: 20,
         marginTop:5,
         color:'navy',
+        borderWidth:10
       }
 
     
