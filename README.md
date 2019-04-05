@@ -1,0 +1,1 @@
+![Screenshot](assets/capturaproducto.PNG)
