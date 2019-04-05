@@ -1,5 +1,5 @@
-##Imagen de Muestra
+# ConsumiendoAPI
+Integrantes: Tito Duarte Corrales, Carlos Jose Rocha
+## Imagen
 ![Screenshot](assets/capturaproducto.PNG)
-##Autores
--Tito Duarte
--Carlos Jose Rocha
+
