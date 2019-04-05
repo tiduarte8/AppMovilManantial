@@ -67,8 +67,11 @@ class CrearContainer extends Component {
                 precio:'',
                 imagen: '',
                 estadoEnGuardado: 'guardado',
+                
             })
+            this.props.navigation.navigate('lista');
         })
+        
         .catch((error) => {
             this.setState({
                 estadoEnGuardado: 'error',

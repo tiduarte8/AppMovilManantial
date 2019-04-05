@@ -33,6 +33,7 @@ const Editar = (props) => {
             </View>
             <Text  style={styles.textoestilo}>Precio</Text>
                 <TextInput
+                     keyboardType='numeric'
                     style={styles.textinput}
                     value={precio}
                     onChangeText={miEventoCambiarPrecio}

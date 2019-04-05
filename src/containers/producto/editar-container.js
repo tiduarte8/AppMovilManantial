@@ -73,13 +73,17 @@ class EditarContainer extends Component {
                 precio:'',
                 imagen: '',
                 estadoEnEditado: 'guardado',
+                
             })
+            this.props.navigation.navigate('lista');
         })
         .catch((error) => {
             this.setState({
                 estadoEnEditado: 'error',
             })
         })
+
+       
     }
 
     render() {

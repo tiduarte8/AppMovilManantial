@@ -36,7 +36,7 @@ const agregarProComponent = (props)=>{
         
         </TextInput>
         <Text style={styles.textoestilo}>Precio</Text>
-        <TextInput style={styles.textinput}
+        <TextInput keyboardType='numeric' style={styles.textinput}
             value={precio}
            onChangeText={miEventoCambiarPrecio}
            editable={ estadoEnGuardado === 'cargando' ? false : true }>
@@ -96,7 +96,7 @@ const styles=StyleSheet.create({
         fontSize: 20,
         marginTop:5,
         color:'navy',
-        borderWidth:10
+        
       }
 
     
