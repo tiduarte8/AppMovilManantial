@@ -13,7 +13,9 @@ import Registrarse from './src/components/registrarse';
 import ListaContainer from './src/containers/producto/listaContainer';
 import MenusStack from './src/components/menustack';
 import CrearContainer from './src/containers/producto/crearContainer';
+import LoginContainer from './src/containers/loginContainer';
+import Login from './src/components/loginComponetn'
 
 
 
-AppRegistry.registerComponent(appName, () => Principal );
+AppRegistry.registerComponent(appName, () => Principal);

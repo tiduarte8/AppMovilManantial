@@ -1,17 +1,15 @@
 import React from 'react';
 import {Console,TextInput,Text,View,Button,Dimensions,TouchableOpacity,Alert,Image,StyleSheet} from 'react-native';
-import {createStackNavigator, createAppContainer} from 'react-navigation';
-import Registrarse from './registrarse';
 
 
 
 const LoginComponen = (props)=>{
-
-  const App = createStackNavigator({
-    Main:{
-    screen: Registrarse}
-  })
  
+  const{miOnChangeDeUsuario,
+    miOnChangeDePassword,
+    miOnPressDeBoton,
+    nombreusuario,
+    contrasena}=props
 
   return(
       <View style={styles.view}>
@@ -21,14 +19,17 @@ const LoginComponen = (props)=>{
                     height={200}>
 
         </Image>
-           <TextInput 
-            
+           <TextInput
+            onChangeText={miOnChangeDeUsuario} 
+            value={nombreusuario}
             style={styles.textinput}
             placeholder= "Usuario">
         
         </TextInput>
 
           <TextInput 
+          onChangeText={miOnChangeDePassword}
+          value={contrasena}
            style={styles.textinput}
             secureTextEntry={true}
             
@@ -36,15 +37,18 @@ const LoginComponen = (props)=>{
 
           </TextInput>
          
-<TouchableOpacity 
-style = {styles.touchboton}
->
-    <Text style={styles.textboton} >Entrar</Text>
-    
-</TouchableOpacity>
-<Text style={styles.textoestilo} onPress={()=>props.navigation.navigate('Registrarse')} >
-  Registrarse
-</Text>
+  <TouchableOpacity 
+  style = {styles.touchboton}
+  onPress={miOnPressDeBoton} 
+  >
+    <Text style={styles.textboton}>Entrar</Text>
+  </TouchableOpacity>
+  {/*
+  <Text style={styles.textoestilo} onPress={()=>props.navigation.navigate('Registrarse')} >
+    Registrarse
+  </Text>
+  */}
+  
 </View>
 
   );
@@ -88,31 +92,4 @@ const styles=StyleSheet.create({
 
 });
 
-const MenuNavigator = createStackNavigator({
-  Login: {
-      screen: LoginComponen,
-      navigationOptions: {
-        headerTitle: 'Login',
-      },
-     
-  },
-  Registrarse: {
-    screen: Registrarse,
-    navigationOptions: {
-      headerTitle: 'Registrarse',
-    },
-},
-}, {
-  
-  defaultNavigationOptions: {
-    navigationOptions: {
-      headerTitle: 'Login',
-    },
-      headerStyle: {
-          backgroundColor: '#000080',
-      },
-      headerTintColor: '#ffffff',
-  },
-})
-
-export default createAppContainer(MenuNavigator)
+export default LoginComponen;

@@ -35,6 +35,7 @@ const CalculadoraPrecio = (props)=>{
         <Text style={styles.text}>Precio:</Text>
         
         <TextInput style={styles.textinput}
+        value={Picker.Item.selectedValue}
            editable = {false}
            style={styles.textinput}
           >
