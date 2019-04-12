@@ -1,9 +1,11 @@
 import React from 'react';
-import{View,Text,TextInput,TouchableOpacity,StyleSheet} from 'react-native';
+import{StyleSheet,ScrollView} from 'react-native';
 import {
     createDrawerNavigator,
     createAppContainer,
     createStackNavigator,
+    DrawerItems,
+    SafeAreaView,
 } from 'react-navigation';
 import agregarProComponent from './agregarProComponent';
 import CalculadoraPrecios from './calculadoraPrecios';
@@ -15,6 +17,30 @@ import {Image} from 'react-native';
 import MenuStack from './menustack';
 import Registrarse from './registrarse';
 import Logo from './logo';
+
+const CustomDrawerContentComponent = props => (
+    <ScrollView>
+      <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+        <Image
+            style={styles.imagen}
+            source={require('./../../assets/imagen/logomanantialt.png')}
+        />
+        <DrawerItems {...props} />
+
+      </SafeAreaView>
+    </ScrollView>
+  );
+
+  const styles = StyleSheet.create({
+   
+    imagen: {
+        left:20,
+        width: 250,
+        height: 150,
+        resizeMode: 'cover',
+        marginBottom: 30,
+    }
+});
 
 
 const MenuDrawer = createDrawerNavigator({
@@ -48,10 +74,15 @@ const MenuDrawer = createDrawerNavigator({
         navigationOptions:{
             drawerLabel: 'Salir',
             drawerIcon: <Image source={require('./../../assets/imagen/logos/cerrarsesion.png')} style={{resizeMode: 'cover', width: 24, height: 24,}}/>,
-        },
-    },
-    
-})
+        }
+    }
+   
+},
+{
+    contentComponent: CustomDrawerContentComponent,
+}  
+
+);
 
 const menuPrincipal = createStackNavigator({
     PantallaLogin: {
@@ -72,8 +103,17 @@ const menuPrincipal = createStackNavigator({
             title: 'Registrarse',
         },
     },
-}, {
+    
+},
+
+{
+    
     headerMode: 'none',
-})
+   
+}
+
+
+
+)
 
 export default createAppContainer(menuPrincipal)
